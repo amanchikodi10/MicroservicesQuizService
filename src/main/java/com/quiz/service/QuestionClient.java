@@ -15,4 +15,7 @@ public interface QuestionClient {
 	@GetMapping("/question/getbyQuizId/{quizId}")
 	List<Question> getQuestionofQuiz(@PathVariable Long quizId);
 
+	@GetMapping("/question/getall")
+	List<Question> getQuestionAnsAnswerofQuiz();
+
 }

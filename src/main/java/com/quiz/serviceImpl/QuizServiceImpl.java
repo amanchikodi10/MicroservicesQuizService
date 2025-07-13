@@ -3,6 +3,8 @@ package com.quiz.serviceImpl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.quiz.entites.Question;
+import com.quiz.service.AnswerClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,9 @@ public class QuizServiceImpl implements QuizService {
 	
 	@Autowired
 	private QuestionClient questionclient;
+
+	@Autowired
+	private AnswerClient answerClient;
 	
 
 	@Override
@@ -43,6 +48,18 @@ public class QuizServiceImpl implements QuizService {
 		// TODO Auto-generated method stub
 		Quiz quizbyid= quizrepo.findById(id).orElseThrow(()-> new RuntimeException("Quiz not found"));
 		quizbyid.setQuestion(questionclient.getQuestionofQuiz(id));
+		return quizbyid;
+	}
+
+	@Override
+	public Quiz getQuestionAnswerByquizId(long id){
+		Quiz quizbyid=quizrepo.findById(id).get();
+		List<Question> listQuestions=questionclient.getQuestionAnsAnswerofQuiz();
+		quizbyid.setQuestion(listQuestions.stream().toList());
+		for( Question qu: listQuestions)
+		{
+			qu.setAnswer(answerClient.getQuestionAnsAnswerofQuiz(qu.getQuestionId()));
+		}
 		return quizbyid;
 	}
 

@@ -1,5 +1,10 @@
 package com.quiz.entites;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.util.List;
+
+@JsonIgnoreProperties
 public class Question {
 	
 	private long questionId;
@@ -7,6 +12,23 @@ public class Question {
 	private String question;
 	
 	private Long quizId;
+
+	transient private List<Answer> answer;
+
+	public Question(long questionId, List<Answer> answer, Long quizId, String question) {
+		this.questionId = questionId;
+		this.answer = answer;
+		this.quizId = quizId;
+		this.question = question;
+	}
+
+	public List<Answer> getAnswer() {
+		return answer;
+	}
+
+	public void setAnswer(List<Answer> answer) {
+		this.answer = answer;
+	}
 
 	public Question() {
 		super();
